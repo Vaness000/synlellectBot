@@ -1,7 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Telegram.Bot;
 
@@ -38,12 +36,12 @@ namespace MRWeb
             {
                 var bot = new BotClient(configuration);
 
-                string webHook = configuration["WebHook"].ToString();
-                string method = configuration["Method"].ToString();
-                string controller = configuration["Controller"].ToString();
-                string webhook = $"{webHook}{controller}{method}";
+                //string webHook = configuration["WebHook"].ToString();
+                //string method = configuration["Method"].ToString();
+                //string controller = configuration["Controller"].ToString();
+                //string webhook = $"{webHook}{controller}{method}";
 
-                await telegramBotClient.SetWebhookAsync($"{webHook}{controller}{method}");
+                await telegramBotClient.SetWebhookAsync("https://syntellect-bot.herokuapp.com/api/message/update");
 
                 return telegramBotClient;
             }
