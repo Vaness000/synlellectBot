@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleDev", "ConsoleDev\Co
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BotManager", "BotManager\BotManager.csproj", "{9B3CC726-25C9-4740-81C3-FD5DFC0F6A66}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BotManager.Tests", "BotManager.Tests\BotManager.Tests.csproj", "{2B5AA115-7E25-4C5E-ACFD-C9DB9D20CDAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BotManager.Tests", "BotManager.Tests\BotManager.Tests.csproj", "{2B5AA115-7E25-4C5E-ACFD-C9DB9D20CDAD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

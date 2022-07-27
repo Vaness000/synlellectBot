@@ -50,7 +50,7 @@ namespace ConsoleDev
         }
         private Task ErrorHandler(ITelegramBotClient arg1, Exception arg2, CancellationToken arg3)
         {
-            throw new NotImplementedException();
+            return Task.CompletedTask;
         }
 
         private async Task UpdateHandler(ITelegramBotClient bot, Update update, CancellationToken cancellationToken)

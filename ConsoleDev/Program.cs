@@ -28,7 +28,7 @@ namespace ConsoleDev
 
             GroupList.Create();
             ControllerPrototype.Create();
-            Console.ReadKey();
+            Console.Read();
         }
     }
 }
