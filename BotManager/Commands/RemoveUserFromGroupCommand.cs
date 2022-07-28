@@ -30,7 +30,7 @@ namespace BotManager.Commands
 
             if (group != null && reviewer != null)
             {
-                bool result = GroupList.Instance.RemoveFromGroup(reviewer.UserName, group.Name);
+                bool result = GroupList.Instance.RemoveFromGroup(reviewer.UserName, group.Name, chat.Identifier.Value);
                 resultMessage = result ? $"Пользователь {reviewer.FullName} удален из группы {group}" : resultMessage;
                 logType = result ? LogType.Information : logType;
             }

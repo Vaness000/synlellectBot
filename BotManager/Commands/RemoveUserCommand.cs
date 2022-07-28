@@ -25,9 +25,9 @@ namespace BotManager.Commands
             LogType logType = LogType.Warning;
             Reviewer reviewer;
 
-            if ((reviewer = ReviewersList.Instance.GetReviewer(userName)) != null)
+            if ((reviewer = ReviewersList.Instance.GetReviewer(userName, chat.Identifier.Value)) != null)
             {
-                bool isSuccess = ReviewersList.Instance.RemoveReviewer(userName, true);
+                bool isSuccess = ReviewersList.Instance.RemoveReviewer(userName, chat.Identifier.Value, true);
                 resultMessage = isSuccess ? $"Пользователь {reviewer.FullName} удален из списка ревьюверов." : resultMessage;
                 logType = isSuccess ? LogType.Information : logType;
             }

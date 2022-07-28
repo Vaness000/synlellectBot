@@ -27,11 +27,11 @@ namespace BotManager.Commands
             string userName = string.IsNullOrEmpty(commandData.UserName) ? commandData.Sender.UserName : commandData.UserName;
 
             LogType logType = LogType.Warning;
-            Reviewer reviewer = ReviewersList.Instance.GetReviewer(userName);
+            Reviewer reviewer = ReviewersList.Instance.GetReviewer(userName, chat.Identifier.Value);
 
             if(group != null && reviewer != null)
             {
-                bool result = GroupList.Instance.AddReviewerToGroup(reviewer.UserName, group.Name);
+                bool result = GroupList.Instance.AddReviewerToGroup(reviewer.UserName, group.Name, chat.Identifier.Value);
                 resultMessage = result ? $"Пользователь {reviewer.FullName} добавлен в группу {group.Name}" : resultMessage;
                 logType = result ? LogType.Information : logType;
             }

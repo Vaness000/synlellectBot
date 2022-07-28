@@ -103,30 +103,30 @@ namespace BotManager.Entities
             return result;
         }
 
-        public bool AddReviewerToGroup(string userName, string groupName)
+        public bool AddReviewerToGroup(string userName, string groupName, long chat)
         {
             bool result = false;
 
-            Reviewer reviewer = ReviewersList.Instance.GetReviewer(userName);
-            groupName = GetGroup(groupName).Name;
+            Reviewer reviewer = ReviewersList.Instance.GetReviewer(userName, chat);
+            Group group = GetGroup(groupName, chat);
 
-            if(reviewer != null && groupName != null && !reviewer.Groups.Contains(groupName))
+            if(reviewer != null && group != null && !reviewer.Groups.Contains(group.Name))
             {
-                reviewer.Groups.Add(groupName);
+                reviewer.Groups.Add(group.Name);
                 result = true;
             }
 
             return result;
         }
 
-        public bool RemoveFromGroup(string userName, string groupName)
+        public bool RemoveFromGroup(string userName, string groupName, long chat)
         {
             bool result = false;
 
-            Reviewer reviewer = ReviewersList.Instance.GetReviewer(userName);
-            groupName = GetGroup(groupName).Name;
+            Reviewer reviewer = ReviewersList.Instance.GetReviewer(userName, chat);
+            Group group = GetGroup(groupName, chat);
 
-            if (reviewer != null && groupName != null && reviewer.Groups.Contains(groupName))
+            if (reviewer != null && groupName != null && reviewer.Groups.Contains(group.Name))
             {
                 reviewer.Groups.Remove(groupName);
                 result = true;
