@@ -26,7 +26,7 @@ namespace BotManager.Commands
 
             if (ReviewersList.Instance.GetReviewer(userName) != null)
             {
-                bool isSuccess = ReviewersList.Instance.RemoveReviewer(userName, false, commandData.AdditionalInfo);
+                bool isSuccess = ReviewersList.Instance.RemoveReviewer(userName, chat.Identifier.Value, false, commandData.AdditionalInfo);
                 resultMessage = isSuccess ? $"Пользователь {ReviewersList.Instance.GetReviewer(userName).FullName} " +
                     $"временно удален из списка ревьюверов. {commandData.AdditionalInfo}" : resultMessage;
                 logType = isSuccess ? LogType.Information : logType;

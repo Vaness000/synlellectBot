@@ -26,7 +26,7 @@ namespace BotManager.Commands
 
             if (ReviewersList.Instance.GetReviewer(userName) != null)
             {
-                bool isSuccess = ReviewersList.Instance.RecoverReviewer(userName);
+                bool isSuccess = ReviewersList.Instance.RecoverReviewer(userName, chat.Identifier.Value);
                 resultMessage = isSuccess ? $"Пользователь {ReviewersList.Instance.GetReviewer(userName).FullName} восстановлен в списке ревьюверов." : resultMessage + 
                     "Пользователь уже доступен для проверки заданий";
                 logType = isSuccess ? LogType.Information : logType;

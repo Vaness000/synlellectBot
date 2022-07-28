@@ -11,6 +11,7 @@ namespace BotManager.Entities
         public string UserName { get; private set; }
         public bool IsAvailable { get; set; }
         public string UnavailableReason { get; set; }
+        public HashSet<long> Chats { get; set; }
 
         public Reviewer(string fullName, string userName, bool isAvailable = true)
         {
@@ -22,6 +23,8 @@ namespace BotManager.Entities
             {
                 GroupList.DefaultGroupName
             };
+
+            Chats = new HashSet<long>();
         }
 
         public Reviewer()

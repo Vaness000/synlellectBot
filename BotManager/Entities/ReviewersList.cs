@@ -65,32 +65,36 @@ namespace BotManager.Entities
             }
         }
 
-        public bool AddReviewer(string userName, string fullName)
+        public bool AddReviewer(string userName, string fullName, long chat)
         {
-            if(GetReviewer(userName) != null)
+            Reviewer reviewer = GetReviewer(userName);
+            if(reviewer != null)
             {
-                return false;
+                return reviewer.Chats.Add(chat);
             }
 
-            reviewers.Add(new Reviewer(fullName, userName));
+            reviewer = new Reviewer(fullName, userName);
+            reviewer.Chats.Add(chat);
+            reviewers.Add(reviewer);
+
             return true;
         }
 
-        private IEnumerable<Reviewer> GetAvailableReviewers(string sender, string group = GroupList.DefaultGroupName)
+        private IEnumerable<Reviewer> GetAvailableReviewers(string sender, long chat, string group = GroupList.DefaultGroupName)
         {
-            return reviewers.Where(x => x.IsAvailable && x.UserName != sender && x.Groups.Contains(group));
+            return reviewers.Where(x => x.IsAvailable && x.UserName != sender && x.Groups.Contains(group) && x.Chats.Contains(chat));
         }
 
-        public Reviewer GetReviewerToCheckTask(string sender, string group = GroupList.DefaultGroupName)
+        public Reviewer GetReviewerToCheckTask(string sender, long chat, string group = GroupList.DefaultGroupName)
         {
-            var availableReviewers = GetAvailableReviewers(sender, group).ToList();
+            var availableReviewers = GetAvailableReviewers(sender, chat, group).ToList();
             MoveNext(availableReviewers.Count());
             return availableReviewers.Count > 0 ? availableReviewers.ElementAt(current) : null;
         }
 
-        public bool RemoveReviewer(string userName, bool isPermanently = false, string suspendReason = null)
+        public bool RemoveReviewer(string userName, long chat, bool isPermanently = false, string suspendReason = null)
         {
-            Reviewer reviewerToRemove = GetReviewer(userName);
+            Reviewer reviewerToRemove = GetReviewer(userName, chat);
 
             if (reviewerToRemove == null)
             {
@@ -99,7 +103,11 @@ namespace BotManager.Entities
 
             if (isPermanently)
             {
-                reviewers.Remove(reviewerToRemove);
+                reviewerToRemove.Chats.Remove(chat);
+                if(reviewerToRemove.Chats.Count == 0)
+                {
+                    reviewers.Remove(reviewerToRemove);
+                }
             }
             else
             {
@@ -110,11 +118,11 @@ namespace BotManager.Entities
             return true;
         }
 
-        public bool RecoverReviewer(string userName)
+        public bool RecoverReviewer(string userName, long chat)
         {
-            Reviewer reviewer = reviewers.FirstOrDefault(x => x.UserName == userName && !x.IsAvailable);
+            Reviewer reviewer = reviewers.FirstOrDefault(x => x.UserName == userName && !x.IsAvailable && x.Chats.Contains(chat));
 
-            if (reviewer != null && !reviewer.IsAvailable)
+            if (reviewer != null)
             {
                 reviewer.IsAvailable = true;
                 reviewer.UnavailableReason = string.Empty;
@@ -127,6 +135,11 @@ namespace BotManager.Entities
         public Reviewer GetReviewer(string userName)
         {
             return reviewers.FirstOrDefault(x => x.UserName == userName);
+        }
+
+        public Reviewer GetReviewer(string userName, long chat)
+        {
+            return reviewers.FirstOrDefault(x => x.UserName == userName && x.Chats.Contains(chat));
         }
     }
 }

@@ -28,7 +28,7 @@ namespace BotManager.Commands
 
             if (ReviewersList.Instance.GetReviewer(userName) == null)
             {
-                bool isSuccess = ReviewersList.Instance.AddReviewer(userName, fullName);
+                bool isSuccess = ReviewersList.Instance.AddReviewer(userName, fullName, chat.Identifier.Value);
                 resultMessage = isSuccess ? $"Пользователь {fullName} добавлен в качестве ревьювера." : resultMessage;
                 logType = isSuccess ? LogType.Information : logType;
             }
