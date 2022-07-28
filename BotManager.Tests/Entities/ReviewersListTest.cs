@@ -31,10 +31,10 @@ namespace BotManager.Tests.Entities
             ReviewersList reviewersList2 = ReviewersList.Create(reviewers2);
 
             Assert.IsNotNull(ReviewersList.Instance);
-            CollectionAssert.AreEqual(reviewersList1.Reviewers, reviewersList2.Reviewers);
-            CollectionAssert.AreEqual(ReviewersList.Instance.Reviewers, reviewersList1.Reviewers);
-            CollectionAssert.AreEqual(ReviewersList.Instance.Reviewers, reviewers1);
-            CollectionAssert.AreNotEqual(ReviewersList.Instance.Reviewers, reviewers2);
+            CollectionAssert.AreEqual(reviewersList1.GetReviewers, reviewersList2.GetReviewers);
+            CollectionAssert.AreEqual(ReviewersList.Instance.GetReviewers, reviewersList1.GetReviewers);
+            CollectionAssert.AreEqual(ReviewersList.Instance.GetReviewers, reviewers1);
+            CollectionAssert.AreNotEqual(ReviewersList.Instance.GetReviewers, reviewers2);
         }
 
         [Test]

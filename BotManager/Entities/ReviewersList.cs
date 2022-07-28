@@ -5,13 +5,12 @@ using System.Text;
 
 namespace BotManager.Entities
 {
-    [Serializable]
     public class ReviewersList
     {
         private static ReviewersList instatce;
 
         private int current;
-        public List<Reviewer> Reviewers { get; set; }
+        private List<Reviewer> reviewers;
 
         public static ReviewersList Instance
         {
@@ -21,28 +20,36 @@ namespace BotManager.Entities
             }
         }
 
+        public IEnumerable<Reviewer> GetReviewers
+        {
+            get
+            {
+                foreach(Reviewer reviewer in this.reviewers)
+                {
+                    yield return reviewer;
+                }
+            }
+        }
+
         private ReviewersList(IEnumerable<Reviewer> reviewers)
         {
-            this.Reviewers = new List<Reviewer>();
+            this.reviewers = new List<Reviewer>();
             foreach (Reviewer reviewer in reviewers)
             {
                 if (GetReviewer(reviewer.UserName) == null)
                 {
-                    this.Reviewers.Add(reviewer);
+                    this.reviewers.Add(reviewer);
                 }
             }
 
             current = 0;
         }
-        public ReviewersList()
-        {
-        }
 
-        public static ReviewersList Create(IEnumerable<Reviewer> reviewers = null)
+        public static ReviewersList Create(IEnumerable<Reviewer> reviewers)
         {
             if(instatce == null)
             {
-                instatce = reviewers == null ? Serializer<ReviewersList>.Deserialize() : new ReviewersList(reviewers);
+                instatce = new ReviewersList(reviewers);
             }
 
             return instatce;
@@ -65,13 +72,13 @@ namespace BotManager.Entities
                 return false;
             }
 
-            Reviewers.Add(new Reviewer(fullName, userName));
+            reviewers.Add(new Reviewer(fullName, userName));
             return true;
         }
 
         private IEnumerable<Reviewer> GetAvailableReviewers(string sender, string group = GroupList.DefaultGroupName)
         {
-            return Reviewers.Where(x => x.IsAvailable && x.UserName != sender && x.Groups.Contains(group));
+            return reviewers.Where(x => x.IsAvailable && x.UserName != sender && x.Groups.Contains(group));
         }
 
         public Reviewer GetReviewerToCheckTask(string sender, string group = GroupList.DefaultGroupName)
@@ -92,7 +99,7 @@ namespace BotManager.Entities
 
             if (isPermanently)
             {
-                Reviewers.Remove(reviewerToRemove);
+                reviewers.Remove(reviewerToRemove);
             }
             else
             {
@@ -105,7 +112,7 @@ namespace BotManager.Entities
 
         public bool RecoverReviewer(string userName)
         {
-            Reviewer reviewer = Reviewers.FirstOrDefault(x => x.UserName == userName && !x.IsAvailable);
+            Reviewer reviewer = reviewers.FirstOrDefault(x => x.UserName == userName && !x.IsAvailable);
 
             if (reviewer != null && !reviewer.IsAvailable)
             {
@@ -119,7 +126,7 @@ namespace BotManager.Entities
 
         public Reviewer GetReviewer(string userName)
         {
-            return Reviewers.FirstOrDefault(x => x.UserName == userName);
+            return reviewers.FirstOrDefault(x => x.UserName == userName);
         }
     }
 }

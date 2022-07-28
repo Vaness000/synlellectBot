@@ -17,6 +17,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BotManager\BotManager.csproj" />
+    <ProjectReference Include="..\ConsoleDev\ConsoleDev.csproj" />
   </ItemGroup>
 
 </Project>

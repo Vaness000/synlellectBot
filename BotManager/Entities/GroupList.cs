@@ -5,7 +5,6 @@ using System.Text;
 
 namespace BotManager.Entities
 {
-    [Serializable]
     public class GroupList
     {
         public const string DefaultGroupName = "review";
@@ -18,7 +17,7 @@ namespace BotManager.Entities
             }
         }
 
-        public List<string> Groups { get; set; }
+        public List<string> Groups { get; private set; }
 
         private GroupList(IEnumerable<string> groups = null)
         {
@@ -39,11 +38,6 @@ namespace BotManager.Entities
             }
         }
 
-        public GroupList()
-        {
-
-        }
-
         public string GetGroup(string name)
         {
             return Groups.FirstOrDefault(x => x == name);
@@ -53,7 +47,7 @@ namespace BotManager.Entities
         {
             if(instance == null)
             {
-                instance = groups == null ? Serializer<GroupList>.Deserialize() : new GroupList(groups);
+                instance = new GroupList(groups);
             }
 
             return instance;
@@ -80,7 +74,7 @@ namespace BotManager.Entities
             {
                 Groups.Remove(group);
 
-                foreach(Reviewer reviewer in ReviewersList.Instance.Reviewers.Where(x => x.Groups.Contains(name)))
+                foreach(Reviewer reviewer in ReviewersList.Instance.GetReviewers.Where(x => x.Groups.Contains(name)))
                 {
                     reviewer.Groups.Remove(name);
                 }

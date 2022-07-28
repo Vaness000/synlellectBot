@@ -4,12 +4,11 @@ using System.Collections.Generic;
 
 namespace BotManager.Entities
 {
-    [Serializable]
     public class Reviewer
     {
-        public List<string> Groups { get; set; }
-        public string FullName { get; set; }
-        public string UserName { get; set; }
+        public List<string> Groups { get; private set; }
+        public string FullName { get; private set; }
+        public string UserName { get; private set; }
         public bool IsAvailable { get; set; }
         public string UnavailableReason { get; set; }
 
