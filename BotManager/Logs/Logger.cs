@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BotManager.Entities;
+using System;
 using System.IO;
 
 namespace BotManager.Logs
@@ -10,6 +11,16 @@ namespace BotManager.Logs
         public static void Log(LogType type, string logMessage)
         {
             File.AppendAllText(path, $"{DateTime.Now} {type}: {logMessage}{Environment.NewLine}");
+
+            if(GroupList.Instance != null)
+            {
+                Serializer<GroupList>.Serialize(GroupList.Instance);
+            }
+
+            if(ReviewersList.Instance != null)
+            {
+                Serializer<ReviewersList>.Serialize(ReviewersList.Instance);
+            }
         }
     }
 }
