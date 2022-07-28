@@ -18,9 +18,9 @@ namespace BotManager.Commands
         public override async Task ExecuteAsync(TelegramBotClient client, ChatId chat, CommandData commandData = null)
         {
             StringBuilder users = new StringBuilder();
-            if(ReviewersList.Instance.Reviewers.Count > 0)
+            if(ReviewersList.Instance.GetReviewers.Count() > 0)
             {
-                foreach (var user in ReviewersList.Instance.Reviewers)
+                foreach (var user in ReviewersList.Instance.GetReviewers)
                 {
                     users.AppendLine(user.ToString());
                 }
