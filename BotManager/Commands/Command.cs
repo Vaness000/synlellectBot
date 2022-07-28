@@ -43,7 +43,7 @@ namespace BotManager.Commands
         {
             Command command = commands.FirstOrDefault(x => x.CommandKey.Contains(commandKey));
 
-            if(command == null && GroupList.Instance.Groups.Contains(commandKey))
+            if(command == null && GroupList.Instance.Groups.Select(x => x.Name).Contains(commandKey))
             {
                 command = commands.FirstOrDefault(x => x.CommandKey == "/review");
             }
@@ -67,7 +67,7 @@ namespace BotManager.Commands
             {
                 commandData.Sender = new CommandData.SenderInfo()
                 {
-                    UserName = message.From.Username,
+                    UserName = message.From.Username == null ? message.From.Id.ToString() : message.From.Username,
                     FullName = $"{message.From.FirstName} {message.From.LastName}"
                 };
             }

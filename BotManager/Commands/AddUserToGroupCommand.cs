@@ -23,16 +23,16 @@ namespace BotManager.Commands
         {
             string resultMessage = "Ошибка добавления пользователя.";
 
-            string groupName = GroupList.Instance.GetGroup(commandData.AdditionalInfo);
+            Group group = GroupList.Instance.GetGroup(commandData.AdditionalInfo, chat.Identifier.Value);
             string userName = string.IsNullOrEmpty(commandData.UserName) ? commandData.Sender.UserName : commandData.UserName;
 
             LogType logType = LogType.Warning;
             Reviewer reviewer = ReviewersList.Instance.GetReviewer(userName);
 
-            if(!string.IsNullOrEmpty(groupName) && reviewer != null)
+            if(group != null && reviewer != null)
             {
-                bool result = GroupList.Instance.AddReviewerToGroup(reviewer.UserName, groupName);
-                resultMessage = result ? $"Пользователь {reviewer.FullName} добавлен в группу {groupName}" : resultMessage;
+                bool result = GroupList.Instance.AddReviewerToGroup(reviewer.UserName, group.Name);
+                resultMessage = result ? $"Пользователь {reviewer.FullName} добавлен в группу {group.Name}" : resultMessage;
                 logType = result ? LogType.Information : logType;
             }
             else

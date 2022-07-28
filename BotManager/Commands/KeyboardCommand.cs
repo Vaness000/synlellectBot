@@ -19,7 +19,7 @@ namespace BotManager.Commands
 
         public override async Task ExecuteAsync(TelegramBotClient client, ChatId chat, CommandData commandData = null)
         {
-            ReplyKeyboardMarkup keyboard = new ReplyKeyboardMarkup(GetButtons());
+            ReplyKeyboardMarkup keyboard = new ReplyKeyboardMarkup(GetButtons(chat.Identifier.Value));
 
             try
             {
@@ -31,9 +31,13 @@ namespace BotManager.Commands
             }
         }
 
-        private static IEnumerable<IEnumerable<KeyboardButton>> GetButtons()
+        private static IEnumerable<IEnumerable<KeyboardButton>> GetButtons(long chat)
         {
-            List<string> allButtons = GroupList.Instance.Groups.Concat(Buttons.Get).ToList();
+            List<string> allButtons = GroupList.Instance.Groups.Where(x => x.Chats.Contains(chat) || x.Name == GroupList.DefaultGroupName)
+                                                               .Select(x => x.Name)
+                                                               .Concat(Buttons.Get)
+                                                               .ToList();
+
             List<List<KeyboardButton>> buttonsMarkup = new List<List<KeyboardButton>>();
             int counter = 0;
 

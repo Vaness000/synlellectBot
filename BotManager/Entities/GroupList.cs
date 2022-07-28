@@ -17,18 +17,18 @@ namespace BotManager.Entities
             }
         }
 
-        public List<string> Groups { get; private set; }
+        public List<Group> Groups { get; private set; }
 
-        private GroupList(IEnumerable<string> groups = null)
+        private GroupList(IEnumerable<Group> groups = null)
         {
-            Groups = new List<string>()
+            Groups = new List<Group>()
             {
-                DefaultGroupName
+                new Group(DefaultGroupName)
             };
 
             if(groups != null)
             {
-                foreach(string group in groups)
+                foreach(var group in groups)
                 {
                     if (!Groups.Contains(group))
                     {
@@ -38,12 +38,17 @@ namespace BotManager.Entities
             }
         }
 
-        public string GetGroup(string name)
+        public Group GetGroup(string name, long chat)
         {
-            return Groups.FirstOrDefault(x => x == name);
+            return Groups.FirstOrDefault(x => x.Name == name && x.Chats.Contains(chat));
         } 
 
-        public static GroupList Create(IEnumerable<string> groups = null)
+        public Group GetGroup(string name)
+        {
+            return Groups.FirstOrDefault(x => x.Name == name);
+        }
+
+        public static GroupList Create(IEnumerable<Group> groups = null)
         {
             if(instance == null)
             {
@@ -53,26 +58,39 @@ namespace BotManager.Entities
             return instance;
         }
 
-        public bool AddGroup(string name)
+        public bool AddGroup(string name, long chat)
         {
             bool result = false;
+            Group group = GetGroup(name);
 
-            if(GetGroup(name) == null)
+            if (group == null)
             {
-                Groups.Add(name);
+                Groups.Add(new Group(name, new long[] { chat }));
+                return true;
+            }
+
+            group = GetGroup(name, chat);
+            if (group == null)
+            {
+                group.Chats.Add(chat);
                 result = true;
             }
 
             return result;
         }
 
-        public bool RemoveGroup(string name)
+        public bool RemoveGroup(string name, long chat)
         {
             bool result = false;
-            string group = GetGroup(name);
+            Group group = GetGroup(name);
             if (group != null)
             {
-                Groups.Remove(group);
+                group.Chats.Remove(chat);
+
+                if(group.Chats.Count == 0)
+                {
+                    Groups.Remove(group);
+                }
 
                 foreach(Reviewer reviewer in ReviewersList.Instance.GetReviewers.Where(x => x.Groups.Contains(name)))
                 {
@@ -85,16 +103,16 @@ namespace BotManager.Entities
             return result;
         }
 
-        public bool AddReviewerToGroup(string userName, string group)
+        public bool AddReviewerToGroup(string userName, string groupName)
         {
             bool result = false;
 
             Reviewer reviewer = ReviewersList.Instance.GetReviewer(userName);
-            group = GetGroup(group);
+            groupName = GetGroup(groupName).Name;
 
-            if(reviewer != null && group != null && !reviewer.Groups.Contains(group))
+            if(reviewer != null && groupName != null && !reviewer.Groups.Contains(groupName))
             {
-                reviewer.Groups.Add(group);
+                reviewer.Groups.Add(groupName);
                 result = true;
             }
 
@@ -106,7 +124,7 @@ namespace BotManager.Entities
             bool result = false;
 
             Reviewer reviewer = ReviewersList.Instance.GetReviewer(userName);
-            groupName = GetGroup(groupName);
+            groupName = GetGroup(groupName).Name;
 
             if (reviewer != null && groupName != null && reviewer.Groups.Contains(groupName))
             {

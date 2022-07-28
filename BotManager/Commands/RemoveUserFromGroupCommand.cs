@@ -23,15 +23,15 @@ namespace BotManager.Commands
         {
             string resultMessage = "Ошибка добавления пользователя.";
 
-            string groupName = GroupList.Instance.GetGroup(commandData.AdditionalInfo);
+            Group group = GroupList.Instance.GetGroup(commandData.AdditionalInfo, chat.Identifier.Value);
             string userName = string.IsNullOrEmpty(commandData.UserName) ? commandData.Sender.UserName : commandData.UserName;
             Reviewer reviewer = ReviewersList.Instance.GetReviewer(userName);
             LogType logType = LogType.Warning;
 
-            if (!string.IsNullOrEmpty(groupName) && reviewer != null)
+            if (group != null && reviewer != null)
             {
-                bool result = GroupList.Instance.RemoveFromGroup(reviewer.UserName, groupName);
-                resultMessage = result ? $"Пользователь {reviewer.FullName} удален из группы {groupName}" : resultMessage;
+                bool result = GroupList.Instance.RemoveFromGroup(reviewer.UserName, group.Name);
+                resultMessage = result ? $"Пользователь {reviewer.FullName} удален из группы {group}" : resultMessage;
                 logType = result ? LogType.Information : logType;
             }
             else

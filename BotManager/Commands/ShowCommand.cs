@@ -36,7 +36,7 @@ namespace BotManager.Commands
             {
                 foreach(var group in GroupList.Instance.Groups)
                 {
-                    users.AppendLine(group);
+                    users.AppendLine(group.Name);
                 }
             }
             else
