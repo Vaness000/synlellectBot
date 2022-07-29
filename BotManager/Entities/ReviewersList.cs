@@ -120,8 +120,15 @@ namespace BotManager.Entities
             }
             else
             {
-                reviewerToRemove.IsAvailable = false;
-                reviewerToRemove.UnavailableReason = suspendReason;
+                if (reviewerToRemove.IsAvailable)
+                {
+                    reviewerToRemove.IsAvailable = false;
+                    reviewerToRemove.UnavailableReason = suspendReason;
+                }
+                else
+                {
+                    return false;
+                }
             }
 
             return true;
