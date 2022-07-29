@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 
 namespace BotManager.Entities
 {
@@ -17,7 +18,7 @@ namespace BotManager.Entities
             }
         }
 
-        public List<Group> Groups { get; private set; }
+        public List<Group> Groups { get; set; }
 
         private GroupList(IEnumerable<Group> groups = null)
         {
@@ -38,6 +39,9 @@ namespace BotManager.Entities
             }
         }
 
+        [JsonConstructor]
+        public GroupList() { }
+
         public Group GetGroup(string name, long chat)
         {
             return Groups.FirstOrDefault(x => x.Name == name && x.Chats.Contains(chat));
@@ -52,7 +56,7 @@ namespace BotManager.Entities
         {
             if(instance == null)
             {
-                instance = new GroupList(groups);
+                instance = groups != null ? new GroupList(groups) : Serializer<GroupList>.Deserialize();
             }
 
             return instance;
