@@ -22,5 +22,7 @@ namespace BotManager.Entities
                 }
             }
         }
+
+        public Group() { }
     }
 }

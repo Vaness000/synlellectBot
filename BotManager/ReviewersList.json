@@ -1,0 +1,28 @@
+﻿{
+  "Reviewers": [
+    {
+      "Groups": [ "review" ],
+      "FullName": "fff fff",
+      "UserName": "fff",
+      "IsAvailable": true,
+      "UnavailableReason": "",
+      "Chats": [ 834109437 ]
+    },
+    {
+      "Groups": [ "review" ],
+      "FullName": "fff1 fff1",
+      "UserName": "fff2",
+      "IsAvailable": true,
+      "UnavailableReason": "",
+      "Chats": [ 1028832177 ]
+    },
+    {
+      "Groups": [ "review" ],
+      "FullName": "fff2 fff2",
+      "UserName": "fff3",
+      "IsAvailable": false,
+      "UnavailableReason": "",
+      "Chats": [ 1028832177, 834109437 ]
+    }
+  ]
+}

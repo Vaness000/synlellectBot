@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,9 @@ namespace BotManager.Entities
         private static ReviewersList instatce;
 
         private int current;
-        private List<Reviewer> reviewers;
+
+        //just for serialization
+        public List<Reviewer> Reviewers { get; set; }
 
         public static ReviewersList Instance
         {
@@ -20,11 +23,12 @@ namespace BotManager.Entities
             }
         }
 
+        [JsonIgnore]
         public IEnumerable<Reviewer> GetReviewers
         {
             get
             {
-                foreach(Reviewer reviewer in this.reviewers)
+                foreach(Reviewer reviewer in this.Reviewers)
                 {
                     yield return reviewer;
                 }
@@ -33,23 +37,28 @@ namespace BotManager.Entities
 
         private ReviewersList(IEnumerable<Reviewer> reviewers)
         {
-            this.reviewers = new List<Reviewer>();
+            this.Reviewers = new List<Reviewer>();
             foreach (Reviewer reviewer in reviewers)
             {
                 if (GetReviewer(reviewer.UserName) == null)
                 {
-                    this.reviewers.Add(reviewer);
+                    this.Reviewers.Add(reviewer);
                 }
             }
 
             current = 0;
         }
 
-        public static ReviewersList Create(IEnumerable<Reviewer> reviewers)
+        public ReviewersList()
+        {
+
+        }
+
+        public static ReviewersList Create(IEnumerable<Reviewer> reviewers = null)
         {
             if(instatce == null)
             {
-                instatce = new ReviewersList(reviewers);
+                instatce = reviewers != null ? new ReviewersList(reviewers) : Serializer<ReviewersList>.Deserialize();
             }
 
             return instatce;
@@ -75,14 +84,14 @@ namespace BotManager.Entities
 
             reviewer = new Reviewer(fullName, userName);
             reviewer.Chats.Add(chat);
-            reviewers.Add(reviewer);
+            Reviewers.Add(reviewer);
 
             return true;
         }
 
         private IEnumerable<Reviewer> GetAvailableReviewers(string sender, long chat, string group = GroupList.DefaultGroupName)
         {
-            return reviewers.Where(x => x.IsAvailable && x.UserName != sender && x.Groups.Contains(group) && x.Chats.Contains(chat));
+            return Reviewers.Where(x => x.IsAvailable && x.UserName != sender && x.Groups.Contains(group) && x.Chats.Contains(chat));
         }
 
         public Reviewer GetReviewerToCheckTask(string sender, long chat, string group = GroupList.DefaultGroupName)
@@ -106,13 +115,20 @@ namespace BotManager.Entities
                 reviewerToRemove.Chats.Remove(chat);
                 if(reviewerToRemove.Chats.Count == 0)
                 {
-                    reviewers.Remove(reviewerToRemove);
+                    Reviewers.Remove(reviewerToRemove);
                 }
             }
             else
             {
-                reviewerToRemove.IsAvailable = false;
-                reviewerToRemove.UnavailableReason = suspendReason;
+                if (reviewerToRemove.IsAvailable)
+                {
+                    reviewerToRemove.IsAvailable = false;
+                    reviewerToRemove.UnavailableReason = suspendReason;
+                }
+                else
+                {
+                    return false;
+                }
             }
 
             return true;
@@ -120,7 +136,7 @@ namespace BotManager.Entities
 
         public bool RecoverReviewer(string userName, long chat)
         {
-            Reviewer reviewer = reviewers.FirstOrDefault(x => x.UserName == userName && !x.IsAvailable && x.Chats.Contains(chat));
+            Reviewer reviewer = Reviewers.FirstOrDefault(x => x.UserName == userName && !x.IsAvailable && x.Chats.Contains(chat));
 
             if (reviewer != null)
             {
@@ -134,12 +150,12 @@ namespace BotManager.Entities
 
         public Reviewer GetReviewer(string userName)
         {
-            return reviewers.FirstOrDefault(x => x.UserName == userName);
+            return Reviewers.FirstOrDefault(x => x.UserName == userName);
         }
 
         public Reviewer GetReviewer(string userName, long chat)
         {
-            return reviewers.FirstOrDefault(x => x.UserName == userName && x.Chats.Contains(chat));
+            return Reviewers.FirstOrDefault(x => x.UserName == userName && x.Chats.Contains(chat));
         }
     }
 }

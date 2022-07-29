@@ -20,7 +20,8 @@ namespace MRWeb
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             await BotClient.Create(configuration);
-            ReviewersList.Create(Enumerable.Empty<Reviewer>());
+            //ReviewersList.Create(Enumerable.Empty<Reviewer>());
+            ReviewersList.Create();
             GroupList.Create();
         }
 
