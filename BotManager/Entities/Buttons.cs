@@ -12,8 +12,6 @@ namespace BotManager.Entities
         {
             get
             {
-                yield return "suspend";
-                yield return "recover";
                 yield return "show";
                 yield return "help";
             }
