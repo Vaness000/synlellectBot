@@ -17,36 +17,40 @@ namespace BotManager.Commands
 
         public override async Task ExecuteAsync(TelegramBotClient client, ChatId chat, CommandData commandData = null)
         {
-            StringBuilder users = new StringBuilder();
-            if(ReviewersList.Instance.GetReviewers.Count() > 0)
+            StringBuilder resultMessages = new StringBuilder();
+            var reviewers = ReviewersList.Instance.GetReviewers.Where(x => x.Chats.Contains(chat.Identifier.Value));
+
+            if (reviewers.Count() > 0)
             {
-                foreach (var user in ReviewersList.Instance.GetReviewers)
+                foreach (var user in reviewers)
                 {
-                    users.AppendLine(user.ToString());
+                    resultMessages.AppendLine(user.ToString());
                 }
             }
             else
             {
-                users.AppendLine("Список ревьюверов пуст");
+                resultMessages.AppendLine("Список ревьюверов пуст");
             }
 
-            users.AppendLine("Группы:");
+            resultMessages.AppendLine("Группы:");
 
-            if(GroupList.Instance.Groups.Count > 0)
+            var groups = GroupList.Instance.Groups.Where(x => x.Chats.Contains(chat.Identifier.Value) || x.Name == GroupList.DefaultGroupName);
+
+            if (groups.Count() > 0)
             {
-                foreach(var group in GroupList.Instance.Groups)
+                foreach(var group in groups)
                 {
-                    users.AppendLine(group.Name);
+                    resultMessages.AppendLine(group.Name);
                 }
             }
             else
             {
-                users.AppendLine("Список групп пуст");
+                resultMessages.AppendLine("Список групп пуст");
             }
 
             try
             {
-                await client.SendTextMessageAsync(chat, users.ToString(), ParseMode.Markdown);
+                await client.SendTextMessageAsync(chat, resultMessages.ToString(), ParseMode.Markdown);
             }
             catch(Exception e)
             {

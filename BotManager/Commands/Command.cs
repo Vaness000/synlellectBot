@@ -84,7 +84,10 @@ namespace BotManager.Commands
                 return commandData;
             }
 
-            string[] dataFromMessage = message.Split('"', StringSplitOptions.RemoveEmptyEntries).Where(x => x != " ").ToArray();
+
+            string[] dataFromMessage = message.Replace("@Tessa4Syntellect_review_bot", string.Empty)
+                                              .Split('"', StringSplitOptions.RemoveEmptyEntries).Where(x => x != " ").ToArray();
+
             if(dataFromMessage.Length >= 1 && dataFromMessage.Length <= 2)
             {
                 string[] importantData = dataFromMessage[0].Split(" ", StringSplitOptions.RemoveEmptyEntries);

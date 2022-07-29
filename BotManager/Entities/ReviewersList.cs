@@ -67,7 +67,7 @@ namespace BotManager.Entities
 
         public bool AddReviewer(string userName, string fullName, long chat)
         {
-            Reviewer reviewer = GetReviewer(userName);
+            Reviewer reviewer = GetReviewer(userName, chat);
             if(reviewer != null)
             {
                 return reviewer.Chats.Add(chat);
