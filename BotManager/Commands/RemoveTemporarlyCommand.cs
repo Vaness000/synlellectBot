@@ -24,7 +24,7 @@ namespace BotManager.Commands
             string userName = string.IsNullOrEmpty(commandData.UserName) ? commandData.Sender.UserName : commandData.UserName;
             LogType logType = LogType.Warning;
 
-            if (ReviewersList.Instance.GetReviewer(userName) != null)
+            if (ReviewersList.Instance.GetReviewer(userName) != null && !string.IsNullOrEmpty(commandData.AdditionalInfo))
             {
                 bool isSuccess = ReviewersList.Instance.RemoveReviewer(userName, chat.Identifier.Value, false, commandData.AdditionalInfo);
                 resultMessage = isSuccess ? $"Пользователь {ReviewersList.Instance.GetReviewer(userName).FullName} " +
@@ -33,7 +33,7 @@ namespace BotManager.Commands
             }
             else
             {
-                resultMessage += " Пользователя с таким именем не существует в списке ревьюверов.";
+                resultMessage += " Пользователя с таким именем не существует в списке ревьюверов или не указана причина.";
             }
 
             try
