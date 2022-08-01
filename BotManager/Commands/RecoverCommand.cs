@@ -16,7 +16,7 @@ namespace BotManager.Commands
             $"Восстанавливает пользователя в списке ревьюверов.{Environment.NewLine}" +
             $"{Environment.NewLine}Формат комманды:{Environment.NewLine}recover userName." +
             $"{Environment.NewLine}Если вы хотите восстановить себя, то просто отправьте /recover.";
-        public override string CommandKey => "/recover";
+        public override string CommandKey => "recover";
 
         public override async Task ExecuteAsync(TelegramBotClient client, ChatId chat, CommandData commandData = null)
         {

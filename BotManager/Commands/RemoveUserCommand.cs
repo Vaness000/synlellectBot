@@ -16,7 +16,7 @@ namespace BotManager.Commands
             $"Удаляет пользователя из списка ревьюверов.{Environment.NewLine}" +
             $"{Environment.NewLine}Формат комманды:{Environment.NewLine}remove userName." +
             $"{Environment.NewLine}Если вы хотите удалить себя, то просто отправьте /remove.";
-        public override string CommandKey => "/remove";
+        public override string CommandKey => "remove";
 
         public override async Task ExecuteAsync(TelegramBotClient client, ChatId chat, CommandData commandData = null)
         {

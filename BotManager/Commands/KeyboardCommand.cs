@@ -40,7 +40,7 @@ namespace BotManager.Commands
 
             if(ReviewersList.Instance.GetReviewers.Any(x => x.UserName == commandData.Sender.UserName))
             {
-                allButtons.AddRange(new string[] { "suspend", "recover" });
+                allButtons.Add("recover");
             }
 
             List<List<KeyboardButton>> buttonsMarkup = new List<List<KeyboardButton>>();

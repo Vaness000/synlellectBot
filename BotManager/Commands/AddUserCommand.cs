@@ -10,7 +10,7 @@ namespace BotManager.Commands
 {
     public class AddUserCommand : Command
     {
-        public override string CommandKey => "/add";
+        public override string CommandKey => "add";
 
         protected override string Description => 
             $"Добавляет пользователя в список ревьюверов.{Environment.NewLine}" +

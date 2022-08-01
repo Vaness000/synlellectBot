@@ -36,7 +36,7 @@ namespace BotManager.Commands
             }
             else
             {
-                resultMessage += "Указанного пользователя или группы не существует";
+                resultMessage += " Указанного пользователя или группы не существует";
             }
 
             try

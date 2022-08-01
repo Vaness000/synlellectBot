@@ -26,7 +26,7 @@ namespace BotManager.Commands
             if (!string.IsNullOrEmpty(groupName))
             {
                 bool result = GroupList.Instance.RemoveGroup(groupName, chat.Identifier.Value);
-                resultMessage = result ? $"Группа {groupName} удалена." : resultMessage += "Группа с таким именем уже существует";
+                resultMessage = result ? $"Группа {groupName} удалена." : resultMessage += " Группа с таким именем уже существует";
                 logType = result ? LogType.Information : logType;
             }
 

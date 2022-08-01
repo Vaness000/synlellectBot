@@ -16,7 +16,7 @@ namespace BotManager.Commands
             $"Временно отстраняет пользователя от проверки задач.{Environment.NewLine}" +
             $"{Environment.NewLine}Формат комманды:{Environment.NewLine}suspend userName." +
             $"{Environment.NewLine}Если вы хотите отстранить себя, то просто отправьте /suspend.";
-        public override string CommandKey => "/suspend";
+        public override string CommandKey => "suspend";
 
         public override async Task ExecuteAsync(TelegramBotClient client, ChatId chat, CommandData commandData = null)
         {
