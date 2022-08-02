@@ -18,39 +18,23 @@ namespace BotManager.Commands
         public override async Task ExecuteAsync(TelegramBotClient client, ChatId chat, CommandData commandData = null)
         {
             StringBuilder resultMessages = new StringBuilder();
-            var reviewers = ReviewersList.Instance.GetReviewers.Where(x => x.Chats.Contains(chat.Identifier.Value));
-
-            if (reviewers.Count() > 0)
-            {
-                foreach (var user in reviewers)
-                {
-                    resultMessages.AppendLine(user.ToString());
-                }
-            }
-            else
-            {
-                resultMessages.AppendLine("Список ревьюверов пуст");
-            }
-
-            resultMessages.AppendLine("Группы:");
 
             var groups = GroupList.Instance.Groups.Where(x => x.Chats.Contains(chat.Identifier.Value) || x.Name == GroupList.DefaultGroupName);
 
-            if (groups.Count() > 0)
+            foreach(var group in groups)
             {
-                foreach(var group in groups)
+                var reviewers = ReviewersList.Instance.GetReviewers.Where(x => x.Chats.Contains(chat.Identifier.Value) && x.Groups.Contains(group.Name));
+                resultMessages.AppendLine($"<b>{group.Name} ({reviewers.Count()})</b>");
+                
+                foreach(var reviewer in reviewers)
                 {
-                    resultMessages.AppendLine(group.Name);
+                    resultMessages.AppendLine($"\t{reviewer}");
                 }
-            }
-            else
-            {
-                resultMessages.AppendLine("Список групп пуст");
             }
 
             try
             {
-                await client.SendTextMessageAsync(chat, resultMessages.ToString(), ParseMode.Markdown);
+                await client.SendTextMessageAsync(chat, resultMessages.ToString(), ParseMode.Html);
             }
             catch(Exception e)
             {

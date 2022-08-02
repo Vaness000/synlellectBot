@@ -35,8 +35,7 @@ namespace BotManager.Entities
         public override string ToString()
         {
             string availability = IsAvailable ? "Доступен" : $"Недоступен - {UnavailableReason}";
-            string groups = $" состоит в группах: {string.Join(", ", Groups)}";
-            return $"{FullName} - @{UserName} {groups}: {availability}";
+            return $"{FullName} - @{UserName}: {availability}";
         }
 
         public override bool Equals(object obj)
