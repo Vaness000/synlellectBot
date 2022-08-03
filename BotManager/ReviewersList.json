@@ -2,27 +2,43 @@
   "Reviewers": [
     {
       "Groups": [ "review" ],
-      "FullName": "fff fff",
-      "UserName": "fff",
+      "FullName": "Кирилл Бугаев",
+      "UserName": "lordnight40",
       "IsAvailable": true,
       "UnavailableReason": "",
-      "Chats": [ 834109437 ]
+      "Chats": [ -752354892 ]
     },
     {
       "Groups": [ "review" ],
-      "FullName": "fff1 fff1",
-      "UserName": "fff2",
-      "IsAvailable": true,
-      "UnavailableReason": "",
-      "Chats": [ 1028832177 ]
-    },
-    {
-      "Groups": [ "review" ],
-      "FullName": "fff2 fff2",
-      "UserName": "fff3",
+      "FullName": "Мигран Мардросян",
+      "UserName": "MigranM",
       "IsAvailable": false,
+      "UnavailableReason": "Временно на другом проекте",
+      "Chats": [ -752354892 ]
+    },
+    {
+      "Groups": [ "review" ],
+      "FullName": "Андрей Гутов",
+      "UserName": "GutOFF3",
+      "IsAvailable": true,
       "UnavailableReason": "",
-      "Chats": [ 1028832177, 834109437 ]
+      "Chats": [ -752354892 ]
+    },
+    {
+      "Groups": [ "review" ],
+      "FullName": "Денис Неструев",
+      "UserName": "dendodge46",
+      "IsAvailable": false,
+      "UnavailableReason": "В отпуске",
+      "Chats": [ -752354892 ]
+    },
+    {
+      "Groups": [ "review" ],
+      "FullName": "Данил Черных",
+      "UserName": "RedPowDan",
+      "IsAvailable": true,
+      "UnavailableReason": "",
+      "Chats": [ -752354892 ]
     }
   ]
 }

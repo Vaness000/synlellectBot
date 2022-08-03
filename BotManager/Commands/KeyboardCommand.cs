@@ -23,7 +23,7 @@ namespace BotManager.Commands
 
             try
             {
-                await client.SendTextMessageAsync(chat, "Выберете действие", replyMarkup: keyboard);
+                await client.SendTextMessageAsync(chat, "Выберите действие", replyMarkup: keyboard);
             }
             catch(Exception e)
             {
