@@ -1,4 +1,5 @@
-﻿using BotManager.Entities;
+﻿using BotManager;
+using BotManager.Entities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using System;
@@ -20,7 +21,7 @@ namespace MRWeb
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             await BotClient.Create(configuration);
-            //ReviewersList.Create(Enumerable.Empty<Reviewer>());
+            DataProvider.Create();
             ReviewersList.Create();
             GroupList.Create();
         }

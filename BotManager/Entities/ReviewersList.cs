@@ -58,7 +58,7 @@ namespace BotManager.Entities
         {
             if(instatce == null)
             {
-                instatce = reviewers != null ? new ReviewersList(reviewers) : Serializer<ReviewersList>.Deserialize();
+                instatce = reviewers != null ? new ReviewersList(reviewers) : DataProvider.Instance.Get<ReviewersList>();
             }
 
             return instatce;

@@ -56,7 +56,7 @@ namespace BotManager.Entities
         {
             if(instance == null)
             {
-                instance = groups != null ? new GroupList(groups) : Serializer<GroupList>.Deserialize();
+                instance = groups != null ? new GroupList(groups) : DataProvider.Instance.Get<GroupList>();
             }
 
             return instance;

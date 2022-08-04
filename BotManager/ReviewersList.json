@@ -36,8 +36,8 @@
       "Groups": [ "review" ],
       "FullName": "Данил Черных",
       "UserName": "RedPowDan",
-      "IsAvailable": true,
-      "UnavailableReason": "",
+      "IsAvailable": false,
+      "UnavailableReason": "Временно на другом проекте",
       "Chats": [ -752354892 ]
     }
   ]
