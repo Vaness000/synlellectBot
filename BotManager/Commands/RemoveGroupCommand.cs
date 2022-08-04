@@ -34,7 +34,7 @@ namespace BotManager.Commands
             {
                 await client.SendTextMessageAsync(chat, resultMessage, ParseMode.Markdown);
                 Command keyboard = Command.Get(nameof(keyboard));
-                await keyboard.ExecuteAsync(client, chat);
+                await keyboard.ExecuteAsync(client, chat, commandData);
 
                 Logger.Log(logType, resultMessage);
             }

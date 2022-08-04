@@ -33,7 +33,7 @@ namespace BotManager.Commands
 
         private static IEnumerable<IEnumerable<KeyboardButton>> GetButtons(long chat, CommandData commandData)
         {
-            List<string> allButtons = GroupList.Instance.Groups.Where(x => x.Chats.Contains(chat) || x.Name == GroupList.DefaultGroupName)
+            List<string> allButtons = GroupList.Instance.Groups.Where(x => x.Name == GroupList.DefaultGroupName || x.Chats.Contains(chat))
                                                                .Select(x => x.Name)
                                                                .Concat(Buttons.Get)
                                                                .ToList();

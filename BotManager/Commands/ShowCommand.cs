@@ -19,7 +19,7 @@ namespace BotManager.Commands
         {
             StringBuilder resultMessages = new StringBuilder();
 
-            var groups = GroupList.Instance.Groups.Where(x => x.Chats.Contains(chat.Identifier.Value) || x.Name == GroupList.DefaultGroupName);
+            var groups = GroupList.Instance.Groups.Where(x => x.Name == GroupList.DefaultGroupName || x.Chats.Contains(chat.Identifier.Value));
 
             foreach(var group in groups)
             {

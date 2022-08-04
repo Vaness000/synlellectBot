@@ -20,7 +20,7 @@ namespace BotManager.Commands
             Command command = commands.First(x => x.CommandKey == "/keyboard");
             try
             {
-                await command.ExecuteAsync(client, chat);
+                await command.ExecuteAsync(client, chat, commandData);
                 Logger.Log(LogType.Information, $"Бот запущен в чате {chat.Identifier}");
             }
             catch(Exception e)
