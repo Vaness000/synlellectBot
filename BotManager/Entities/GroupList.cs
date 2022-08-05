@@ -82,14 +82,10 @@ namespace BotManager.Entities
             {
                 group.Chats.Remove(chat);
 
+                UserGroupsList.Instance.UserGroups = UserGroupsList.Instance.UserGroups.Where(x => x.ChatId != chat || x.GroupName != name).ToList();
                 if(group.Chats.Count == 0)
                 {
                     Groups.Remove(group);
-                }
-
-                foreach(Reviewer reviewer in ReviewersList.Instance.GetReviewers.Where(x => x.Groups.Contains(name)))
-                {
-                    reviewer.Groups.Remove(name);
                 }
 
                 result = true;

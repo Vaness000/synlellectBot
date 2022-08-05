@@ -18,6 +18,7 @@ namespace BotManager.Logs
                 DataProvider.Instance.Insert(ReviewersList.Instance);
                 DataProvider.Instance.Insert(GroupList.Instance);
                 DataProvider.Instance.Insert(Currents.Instance);
+                DataProvider.Instance.Insert(UserGroupsList.Instance);
             }
         }
     }
