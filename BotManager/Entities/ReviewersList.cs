@@ -10,8 +10,6 @@ namespace BotManager.Entities
     {
         private static ReviewersList instatce;
 
-        private int current;
-
         //just for serialization
         public List<Reviewer> Reviewers { get; set; }
 
@@ -45,8 +43,6 @@ namespace BotManager.Entities
                     this.Reviewers.Add(reviewer);
                 }
             }
-
-            current = 0;
         }
 
         public ReviewersList()
@@ -58,20 +54,24 @@ namespace BotManager.Entities
         {
             if(instatce == null)
             {
-                instatce = reviewers != null ? new ReviewersList(reviewers) : Serializer<ReviewersList>.Deserialize();
+                instatce = reviewers != null ? new ReviewersList(reviewers) : DataProvider.Instance.Get<ReviewersList>();
             }
 
             return instatce;
         }
 
-        private void MoveNext(int availableCount)
+        private int MoveNext(int availableCount, long chat)
         {
-            current++;
-
-            if (current >= availableCount)
+            if(Currents.Instance.CurrentReviewerIndexes.TryGetValue(chat, out int current))
             {
-                current = 0;
+                Currents.Instance.CurrentReviewerIndexes[chat] = availableCount == current + 1 ? 0 : current + 1;
             }
+            else
+            {
+                Currents.Instance.CurrentReviewerIndexes.Add(chat, current + 1);
+            }
+
+            return current;
         }
 
         public bool AddReviewer(string userName, string fullName, long chat)
@@ -82,9 +82,14 @@ namespace BotManager.Entities
                 return reviewer.Chats.Add(chat);
             }
 
-            reviewer = new Reviewer(fullName, userName);
+            reviewer = GetReviewer(userName);
+            if(reviewer == null)
+            {
+                reviewer = new Reviewer(fullName, userName);
+                Reviewers.Add(reviewer);
+            }
+            
             reviewer.Chats.Add(chat);
-            Reviewers.Add(reviewer);
 
             return true;
         }
@@ -97,8 +102,8 @@ namespace BotManager.Entities
         public Reviewer GetReviewerToCheckTask(string sender, long chat, string group = GroupList.DefaultGroupName)
         {
             var availableReviewers = GetAvailableReviewers(sender, chat, group).ToList();
-            MoveNext(availableReviewers.Count());
-            return availableReviewers.Count > 0 ? availableReviewers.ElementAt(current) : null;
+            int position = MoveNext(availableReviewers.Count(), chat);
+            return availableReviewers.Count > 0 ? availableReviewers.ElementAt(position) : null;
         }
 
         public bool RemoveReviewer(string userName, long chat, bool isPermanently = false, string suspendReason = null)

@@ -56,7 +56,7 @@ namespace BotManager.Entities
         {
             if(instance == null)
             {
-                instance = groups != null ? new GroupList(groups) : Serializer<GroupList>.Deserialize();
+                instance = groups != null ? new GroupList(groups) : DataProvider.Instance.Get<GroupList>();
             }
 
             return instance;
@@ -64,23 +64,14 @@ namespace BotManager.Entities
 
         public bool AddGroup(string name, long chat)
         {
-            bool result = false;
             Group group = GetGroup(name);
-
             if (group == null)
             {
-                Groups.Add(new Group(name, new long[] { chat }));
-                return true;
+                group = new Group(name);
+                Groups.Add(group);
             }
 
-            group = GetGroup(name, chat);
-            if (group == null)
-            {
-                group.Chats.Add(chat);
-                result = true;
-            }
-
-            return result;
+            return group.Chats.Add(chat);
         }
 
         public bool RemoveGroup(string name, long chat)

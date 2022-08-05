@@ -17,10 +17,10 @@ namespace BotManager.Commands
         {
             Reviewer reviewer = ReviewersList.Instance.GetReviewerToCheckTask(commandData.Sender.UserName, chat.Identifier.Value, commandData.CommandKey);
             string resultMessage = reviewer != null ? reviewer.FullName : "Проверять некому, список пуст или нет доступных ревьюверов";
-
             try
             {
                 await client.SendTextMessageAsync(chat, resultMessage, ParseMode.Markdown);
+                Logger.Log(LogType.Information, resultMessage);
             }
             catch(Exception e)
             {
