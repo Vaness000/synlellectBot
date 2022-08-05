@@ -17,6 +17,7 @@ namespace BotManager.Logs
                 Serializer<ReviewersList>.Serialize(ReviewersList.Instance);
                 DataProvider.Instance.Insert(ReviewersList.Instance);
                 DataProvider.Instance.Insert(GroupList.Instance);
+                DataProvider.Instance.Insert(Currents.Instance);
             }
         }
     }

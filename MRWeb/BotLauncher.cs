@@ -24,6 +24,7 @@ namespace MRWeb
             DataProvider.Create();
             ReviewersList.Create();
             GroupList.Create();
+            Currents.Create();
         }
 
         public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;

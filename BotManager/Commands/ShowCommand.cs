@@ -18,12 +18,13 @@ namespace BotManager.Commands
         public override async Task ExecuteAsync(TelegramBotClient client, ChatId chat, CommandData commandData = null)
         {
             StringBuilder resultMessages = new StringBuilder();
+            long chatId = chat.Identifier.Value;
 
             var groups = GroupList.Instance.Groups.Where(x => x.Name == GroupList.DefaultGroupName || x.Chats.Contains(chat.Identifier.Value));
 
             foreach(var group in groups)
             {
-                var reviewers = ReviewersList.Instance.GetReviewers.Where(x => x.Chats.Contains(chat.Identifier.Value) && x.Groups.Contains(group.Name));
+                var reviewers = ReviewersList.Instance.GetReviewers.Where(x => x.Chats.Contains(chatId) && x.Groups.Contains(group.Name));
                 resultMessages.AppendLine($"<b>{group.Name} ({reviewers.Count()})</b>");
                 
                 foreach(var reviewer in reviewers)
