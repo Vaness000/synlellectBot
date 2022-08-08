@@ -64,7 +64,7 @@ namespace BotManager.Entities
         {
             if(Currents.Instance.CurrentReviewerIndexes.TryGetValue(chat, out int current))
             {
-                Currents.Instance.CurrentReviewerIndexes[chat] = availableCount >= current + 1 ? 0 : current + 1;
+                Currents.Instance.CurrentReviewerIndexes[chat] = availableCount <= current + 1 ? 0 : current + 1;
             }
             else
             {
