@@ -64,7 +64,7 @@ namespace BotManager.Entities
         {
             if(Currents.Instance.CurrentReviewerIndexes.TryGetValue(chat, out int current))
             {
-                Currents.Instance.CurrentReviewerIndexes[chat] = availableCount == current + 1 ? 0 : current + 1;
+                Currents.Instance.CurrentReviewerIndexes[chat] = availableCount >= current + 1 ? 0 : current + 1;
             }
             else
             {
@@ -97,14 +97,16 @@ namespace BotManager.Entities
 
         private IEnumerable<Reviewer> GetAvailableReviewers(string sender, long chat, string group = GroupList.DefaultGroupName)
         {
-            return Reviewers.Where(x => x.IsAvailable && x.UserName != sender && x.Groups.Contains(group) && x.Chats.Contains(chat));
+            return UserGroupsList.Instance.UserGroups.Where(x => x.GroupName == group && x.ChatId == chat && x.UserName != sender)
+                                                     .Select(x => GetReviewer(x.UserName))
+                                                     .Where(x => x.IsAvailable);
         }
 
         public Reviewer GetReviewerToCheckTask(string sender, long chat, string group = GroupList.DefaultGroupName)
         {
-            var availableReviewers = GetAvailableReviewers(sender, chat, group).ToList();
+            var availableReviewers = GetAvailableReviewers(sender, chat, group);
             int position = MoveNext(availableReviewers.Count(), chat);
-            return availableReviewers.Count > 0 ? availableReviewers.ElementAt(position) : null;
+            return availableReviewers.Count() > 0 ? availableReviewers.ElementAt(position) : null;
         }
 
         public bool RemoveReviewer(string userName, long chat, bool isPermanently = false, string suspendReason = null)

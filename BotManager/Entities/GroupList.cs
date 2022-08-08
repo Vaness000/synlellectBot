@@ -93,37 +93,5 @@ namespace BotManager.Entities
 
             return result;
         }
-
-        public bool AddReviewerToGroup(string userName, string groupName, long chat)
-        {
-            bool result = false;
-
-            Reviewer reviewer = ReviewersList.Instance.GetReviewer(userName, chat);
-            Group group = GetGroup(groupName, chat);
-
-            if(reviewer != null && group != null && !reviewer.Groups.Contains(group.Name))
-            {
-                reviewer.Groups.Add(group.Name);
-                result = true;
-            }
-
-            return result;
-        }
-
-        public bool RemoveFromGroup(string userName, string groupName, long chat)
-        {
-            bool result = false;
-
-            Reviewer reviewer = ReviewersList.Instance.GetReviewer(userName, chat);
-            Group group = GetGroup(groupName, chat);
-
-            if (reviewer != null && groupName != null && reviewer.Groups.Contains(group.Name))
-            {
-                reviewer.Groups.Remove(groupName);
-                result = true;
-            }
-
-            return result;
-        }
     }
 }

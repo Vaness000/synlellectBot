@@ -6,7 +6,6 @@ namespace BotManager.Entities
 {
     public class Reviewer
     {
-        public List<string> Groups { get; set; }
         public string FullName { get; set; }
         public string UserName { get; set; }
         public bool IsAvailable { get; set; }
@@ -19,10 +18,6 @@ namespace BotManager.Entities
             this.IsAvailable = isAvailable;
             this.UserName = userName;
             this.UnavailableReason = string.Empty;
-            Groups = new List<string>()
-            {
-                GroupList.DefaultGroupName
-            };
 
             Chats = new HashSet<long>();
         }
