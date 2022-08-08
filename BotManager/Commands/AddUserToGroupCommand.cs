@@ -31,7 +31,6 @@ namespace BotManager.Commands
 
             if(group != null && reviewer != null)
             {
-                //bool result = GroupList.Instance.AddReviewerToGroup(reviewer.UserName, group.Name, chat.Identifier.Value);
                 bool result = UserGroupsList.Instance.AddUserToGroup(chat.Identifier.Value, reviewer.UserName, group.Name);
                 resultMessage = result ? $"Пользователь {reviewer.FullName} добавлен в группу {group.Name}" : resultMessage;
                 logType = result ? LogType.Information : logType;

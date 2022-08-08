@@ -121,7 +121,7 @@ namespace BotManager.Entities
             if (isPermanently)
             {
                 reviewerToRemove.Chats.Remove(chat);
-                UserGroupsList.Instance.UserGroups = UserGroupsList.Instance.UserGroups.Where(x => x.UserName != userName || x.ChatId == chat).ToList();
+                UserGroupsList.Instance.UserGroups = UserGroupsList.Instance.UserGroups.Where(x => x.ChatId != chat || x.UserName != userName).ToList();
 
                 if (reviewerToRemove.Chats.Count == 0)
                 {
