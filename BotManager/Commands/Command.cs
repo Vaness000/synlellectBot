@@ -39,11 +39,11 @@ namespace BotManager.Commands
             return $"{CommandKey} - {Description}";
         }
 
-        public static Command Get(string commandKey)
+        public static Command Get(string commandKey, long? chat = null)
         {
             Command command = commands.FirstOrDefault(x => x.CommandKey.Contains(commandKey));
 
-            if(command == null && GroupList.Instance.Groups.Select(x => x.Name).Contains(commandKey))
+            if(command == null && GroupList.Instance.Groups.Where(x => x.Chats != null && x.Chats.Contains(chat.Value)).Select(x => x.Name).Contains(commandKey))
             {
                 command = commands.FirstOrDefault(x => x.CommandKey == "/review");
             }
@@ -61,7 +61,7 @@ namespace BotManager.Commands
             }
 
             commandData = GetCommandData(message.Text);
-            Command command = Command.Get(commandData.CommandKey);
+            Command command = Command.Get(commandData.CommandKey, message.Chat.Id);
 
             if(command != null)
             {
