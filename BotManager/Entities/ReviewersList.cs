@@ -86,10 +86,10 @@ namespace BotManager.Entities
             if(reviewer == null)
             {
                 reviewer = new Reviewer(fullName, userName);
-                UserGroupsList.Instance.AddUserToGroup(chat, userName, GroupList.DefaultGroupName);
                 Reviewers.Add(reviewer);
             }
-            
+
+            UserGroupsList.Instance.AddUserToGroup(chat, userName, GroupList.DefaultGroupName);
             reviewer.Chats.Add(chat);
 
             return true;
