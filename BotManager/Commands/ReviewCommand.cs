@@ -15,7 +15,8 @@ namespace BotManager.Commands
 
         public override async Task ExecuteAsync(TelegramBotClient client, ChatId chat, CommandData commandData = null)
         {
-            Reviewer reviewer = ReviewersList.Instance.GetReviewerToCheckTask(commandData.Sender.UserName, chat.Identifier.Value, commandData.CommandKey);
+
+            Reviewer reviewer = ReviewersList.Instance.GetReviewerToCheckTask(commandData.Sender.UserName, chat.Identifier.Value, commandData.CommandKey.Replace("/", string.Empty));
             string resultMessage = reviewer != null ? reviewer.FullName : "Проверять некому, список пуст или нет доступных ревьюверов";
             try
             {
