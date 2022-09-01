@@ -36,12 +36,12 @@ namespace MRWeb
             {
                 var bot = new BotClient(configuration);
 
-                //string webHook = configuration["WebHook"].ToString();
-                //string method = configuration["Method"].ToString();
-                //string controller = configuration["Controller"].ToString();
-                //string webhook = $"{webHook}{controller}{method}";
+                string webHook = configuration["WebHook"].ToString();
+                string method = configuration["Method"].ToString();
+                string controller = configuration["Controller"].ToString();
+                string webhook = $"{webHook}{controller}{method}";
 
-                await telegramBotClient.SetWebhookAsync("https://syntellect-bot.herokuapp.com/api/message/update");
+                await telegramBotClient.SetWebhookAsync(webhook);
 
                 return telegramBotClient;
             }
