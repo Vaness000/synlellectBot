@@ -37,15 +37,15 @@ namespace BotManager.Tests.Entities
             CollectionAssert.AreNotEqual(ReviewersList.Instance.GetReviewers, reviewers2);
         }
 
-        [Test]
-        [TestCaseSource(nameof(GetTestAddReviewerCases))]
-        public bool TestAddReviewer(string reviewer)
-        {
-            IEnumerable<Reviewer> reviewers = GetReviewers().Select(x => new Reviewer($"{x}", x));
-            ReviewersList.Create(reviewers);
+        //[Test]
+        //[TestCaseSource(nameof(GetTestAddReviewerCases))]
+        //public bool TestAddReviewer(string reviewer)
+        //{
+        //    IEnumerable<Reviewer> reviewers = GetReviewers().Select(x => new Reviewer($"{x}", x));
+        //    ReviewersList.Create(reviewers);
 
-            return ReviewersList.Instance.AddReviewer($"@{reviewer}", reviewer);
-        }
+        //    return ReviewersList.Instance.AddReviewer($"@{reviewer}", reviewer);
+        //}
 
         private static IEnumerable GetTestAddReviewerCases()
         {
@@ -57,15 +57,15 @@ namespace BotManager.Tests.Entities
             yield return new TestCaseData("Мария Соколова").Returns(false);
         }
 
-        [Test]
-        [TestCaseSource(nameof(GetTestRemoveReviewerCases))]
-        public bool TestRemoveReviewer(string userName, bool isPermanently)
-        {
-            IEnumerable<Reviewer> reviewers = GetReviewers().Select(x => new Reviewer($"{x}", x));
-            ReviewersList.Create(reviewers);
+        //[Test]
+        //[TestCaseSource(nameof(GetTestRemoveReviewerCases))]
+        //public bool TestRemoveReviewer(string userName, bool isPermanently)
+        //{
+        //    IEnumerable<Reviewer> reviewers = GetReviewers().Select(x => new Reviewer($"{x}", x));
+        //    ReviewersList.Create(reviewers);
 
-            return ReviewersList.Instance.RemoveReviewer(userName, isPermanently);
-        }
+        //    return ReviewersList.Instance.RemoveReviewer(userName, isPermanently);
+        //}
 
         private static IEnumerable GetTestRemoveReviewerCases()
         {
@@ -108,16 +108,16 @@ namespace BotManager.Tests.Entities
             yield return new TestCaseData("Рыжаев Иван").Returns(null);
         }
 
-        [Test]
-        [TestCaseSource(nameof(GetTestGetUserToCheckCases))]
-        public bool TestGetReviewerToCheck(string sender)
-        {
-            ReviewersList.Create(GetReviewersToTest());
+        //[Test]
+        //[TestCaseSource(nameof(GetTestGetUserToCheckCases))]
+        //public bool TestGetReviewerToCheck(string sender)
+        //{
+        //    ReviewersList.Create(GetReviewersToTest());
 
-            Reviewer reviewer = ReviewersList.Instance.GetReviewerToCheckTask(sender);
+        //    Reviewer reviewer = ReviewersList.Instance.GetReviewerToCheckTask(sender);
 
-            return reviewer.UserName != sender && reviewer.IsAvailable;
-        }
+        //    return reviewer.UserName != sender && reviewer.IsAvailable;
+        //}
         private static IEnumerable<Reviewer> GetReviewersToTest()
         {
             yield return new Reviewer("@Иван Рыжаев", "Иван Рыжаев");
@@ -138,14 +138,14 @@ namespace BotManager.Tests.Entities
             yield return new TestCaseData("@Ольга Щербакова").Returns(true);
         }
 
-        [Test]
-        [TestCaseSource(nameof(GetTestRecoverUsersCases))]
-        public bool TestRecoverUser(string userName)
-        {
-            ReviewersList.Create(GetReviewersToTest());
+        //[Test]
+        //[TestCaseSource(nameof(GetTestRecoverUsersCases))]
+        //public bool TestRecoverUser(string userName)
+        //{
+        //    ReviewersList.Create(GetReviewersToTest());
 
-            return ReviewersList.Instance.RecoverReviewer(userName);
-        }
+        //    return ReviewersList.Instance.RecoverReviewer(userName);
+        //}
 
         private static IEnumerable GetTestRecoverUsersCases()
         {

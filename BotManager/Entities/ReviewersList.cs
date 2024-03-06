@@ -60,18 +60,25 @@ namespace BotManager.Entities
             return instatce;
         }
 
-        private int MoveNext(int availableCount, long chat)
+        private int MoveNext(int availableCount, long chat, string groupName)
         {
-            if(Currents.Instance.CurrentReviewerIndexes.TryGetValue(chat, out int current))
+            var currentItem = Currents.Instance.CurrentReviewerIndexes
+                .FirstOrDefault(x => x.GroupName.Equals(groupName, StringComparison.OrdinalIgnoreCase) && x.ChatId == chat);
+
+            if(currentItem is null)
             {
-                Currents.Instance.CurrentReviewerIndexes[chat] = availableCount <= current + 1 ? 0 : current + 1;
-            }
-            else
-            {
-                Currents.Instance.CurrentReviewerIndexes.Add(chat, current + 1);
+                Currents.Instance.CurrentReviewerIndexes.Add(new()
+                {
+                    ChatId = chat,
+                    GroupName = groupName,
+                    Current = 0
+                });
+
+                return 0;
             }
 
-            return current;
+            currentItem.Current = availableCount <= currentItem.Current + 1 ? 0 : currentItem.Current + 1;
+            return currentItem.Current;
         }
 
         public bool AddReviewer(string userName, string fullName, long chat)
@@ -105,7 +112,7 @@ namespace BotManager.Entities
         public Reviewer GetReviewerToCheckTask(string sender, long chat, string group = GroupList.DefaultGroupName)
         {
             var availableReviewers = GetAvailableReviewers(sender, chat, group);
-            int position = MoveNext(availableReviewers.Count(), chat);
+            int position = MoveNext(availableReviewers.Count(), chat, group);
             return availableReviewers.Count() > 0 ? availableReviewers.ElementAt(position) : null;
         }
 

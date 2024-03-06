@@ -18,7 +18,7 @@ namespace MRWeb.Controllers
     public class MessageController : ControllerBase
     {
         [HttpPost]
-        public async Task<IActionResult> Update([FromBody]object body)
+        public async Task<IActionResult> Update([FromBody] object body)
         {
             Update update = JsonConvert.DeserializeObject<Update>(body.ToString());
             if (update.Type == UpdateType.Message && update.Message.Type == MessageType.Text)

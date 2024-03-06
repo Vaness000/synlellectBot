@@ -8,12 +8,12 @@ namespace BotManager.Entities
 {
     public class Currents
     {
-        public Dictionary<long, int> CurrentReviewerIndexes { get; set; }
+        public List<UserGroupIndexes> CurrentReviewerIndexes { get; set; }
         public static Currents Instance { get; private set; }
 
         public static Currents Create()
         {
-            if(Instance == null)
+            if (Instance == null)
             {
                 Instance = DataProvider.Instance.Get<Currents>();
             }

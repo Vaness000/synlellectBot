@@ -30,7 +30,7 @@ namespace BotManager.Entities
         public override string ToString()
         {
             string availability = IsAvailable ? "Доступен" : $"Недоступен - {UnavailableReason}";
-            return $"{FullName} - @{UserName}: {availability}";
+            return $"{FullName} - {UserName}: {availability}";
         }
 
         public override bool Equals(object obj)
